@@ -15,8 +15,8 @@
 * `enable`: 인프라의 부분 생성 및 삭제 Flag. `true`로 지정된 값만 생성한다.
 
 * `vpc_name`: 생성하려는 VPC 마다 **독립된 값을 지정**해야한다. 지정한 값을 기준으로 Network 리소스들의 Tag Name이 지정된다.
-    * `vpc`: <vpc_name>-vpc
-    * `subnet`: <vpc_name>-<subnet_type>-subnet-<availability_zone>
+    * `vpc`: [vpc_name]-vpc
+    * `subnet`: [vpc_name]-[subnet_type]-subnet-[availability_zone]
 
 * `vpc_cidr`: 생성하려는 VPC 마다 **독립된 값을 지정**해야한다. 지정한 값에 맞게 vpc에 cidr를 할당한다.
 * `type`: `public`, `private` 중 선택
