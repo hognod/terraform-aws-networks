@@ -1,0 +1,3 @@
+variable "networks" {
+  type = map
+}

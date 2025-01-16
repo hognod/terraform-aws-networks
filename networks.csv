@@ -1,0 +1,4 @@
+enable,vpc_name,vpc_cidr,subnet_type,subnet_cidr,availability_zone
+true,hognod,10.0.0.0/16,public,10.0.0.0/24,ap-northeast-2a
+true,hognod,10.0.0.0/16,private,10.0.20.0/24,ap-northeast-2c
+true,hognod2,10.10.0.0/16,private,10.10.0.0/24,ap-northeast-2a
