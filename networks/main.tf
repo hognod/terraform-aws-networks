@@ -8,7 +8,7 @@ locals {
     "ap-northeast-2d" = "D"
   }
 
-  test = { for k, v in var.networks : v.subnet_cidr => v if v.subnet_type == "public" }
+  test = { for k, v in var.networks : v.subnet_cidr => v if v.type == "public" }
 }
 
 resource "aws_vpc" "main" {
@@ -27,10 +27,10 @@ resource "aws_subnet" "main" {
   vpc_id = aws_vpc.main.id
   cidr_block = each.value.subnet_cidr
   availability_zone = each.value.availability_zone
-  map_public_ip_on_launch = each.value.subnet_type == "public" ? true : false
+  map_public_ip_on_launch = each.value.type == "public" ? true : false
 
   tags = {
-    Name = "${local.vpc_name[0]}-${each.value.subnet_type}-subnet-${lookup(local.availability_zone, each.value.availability_zone, "default")}"
+    Name = "${local.vpc_name[0]}-${each.value.type}-subnet-${lookup(local.availability_zone, each.value.availability_zone, "default")}"
   }
 }
 
@@ -55,7 +55,7 @@ resource "aws_route_table" "main" {
   }
 
   dynamic "route" {
-    for_each = { for k, v in var.networks : v.subnet_cidr => v if v.subnet_type == "public" && each.value.subnet_cidr == v.subnet_cidr }
+    for_each = { for k, v in var.networks : v.subnet_cidr => v if v.type == "public" && each.value.subnet_cidr == v.subnet_cidr }
 
     content {
       cidr_block = "0.0.0.0/0"
@@ -64,7 +64,7 @@ resource "aws_route_table" "main" {
   }
 
   tags = {
-    Name = "${local.vpc_name[0]}-${each.value.subnet_type}-rtb-${lookup(local.availability_zone, each.value.availability_zone, "default")}"
+    Name = "${local.vpc_name[0]}-${each.value.type}-rtb-${lookup(local.availability_zone, each.value.availability_zone, "default")}"
   }
 }
 
@@ -75,4 +75,3 @@ resource "aws_route_table_association" "main" {
   subnet_id = aws_subnet.main[each.key].id
   route_table_id = aws_route_table.main[each.key].id
 }
-
